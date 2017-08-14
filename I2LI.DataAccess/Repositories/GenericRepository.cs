@@ -10,6 +10,11 @@ namespace I2LI.DataAccess.Repositories
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
+        /// <summary>
+        /// Include or not navigation properties
+        /// </summary>
+        public bool IncludeNavigationProperties { get; set; }
+
         protected readonly DbContext _dbContext;
 
         protected virtual DbContext DBContext { get { return _dbContext; } }
@@ -17,6 +22,7 @@ namespace I2LI.DataAccess.Repositories
         public GenericRepository(DbContext dbContext)
         {
             this._dbContext = dbContext;
+            IncludeNavigationProperties = true;
         }
 
         public virtual IQueryable<TEntity> AsQueriable()

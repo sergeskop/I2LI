@@ -72,6 +72,8 @@
     <Compile Include="Repositories\PrivateClasses\ClassInfoRepo.cs" />
     <Compile Include="Repositories\PrivateClasses\IClassInfoRepo.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
+    <Compile Include="Repositories\PrivateClasses\IParticipantRepo.cs" />
+    <Compile Include="Repositories\PrivateClasses\ParticipantRepo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />

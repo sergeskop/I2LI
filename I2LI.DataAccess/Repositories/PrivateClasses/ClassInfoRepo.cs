@@ -23,8 +23,7 @@ namespace I2LI.DataAccess.Repositories.PrivateClasses
 
         public override IQueryable<ClassInfo> AsQueriable()
         {
-            //Eager load all properties
-            return PrivateClassesDBContext.ClassInfoes.Include(c => c.ClassCategory).Include(c => c.Orders);
+            return PrivateClassesDBContext.ClassInfoes;
         }
 
         public override IEnumerable<ClassInfo> GetAll()
@@ -43,7 +42,12 @@ namespace I2LI.DataAccess.Repositories.PrivateClasses
 
         public List<ClassInfo> GetAllClasses()
         {
-            return AsQueriable().ToList();
+            //Include navigation properties or not
+            if (IncludeNavigationProperties)
+            {
+                return AsQueriable().ToList();
+            }
+            return PrivateClassesDBContext.ClassInfoes.ToList();
         }
 
         public ClassInfo GetClassById(int id)
