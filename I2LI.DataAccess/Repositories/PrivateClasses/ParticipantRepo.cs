@@ -21,14 +21,14 @@ namespace I2LI.DataAccess.Repositories.PrivateClasses
 
         #region Overrides
 
-        public override IQueryable<StudentInfo> AsQueriable()
+        public override IQueryable<StudentInfo> AsQueryable()
         {
             //Eager load all properties, including navigation properties
             if (IncludeNavigationProperties)
             {
                 return PrivateClassesDBContext.StudentInfoes.Include(s => s.AccountInfo).Include(s => s.Orders);
             }
-            return PrivateClassesDBContext.StudentInfoes;
+            return base.AsQueryable();
         }
 
         public override IEnumerable<StudentInfo> GetAll()
@@ -38,7 +38,7 @@ namespace I2LI.DataAccess.Repositories.PrivateClasses
 
         public override IEnumerable<StudentInfo> FindMany(Expression<Func<StudentInfo, bool>> predicate)
         {
-            return AsQueriable().Where(predicate).ToList();
+            return AsQueryable().Where(predicate).ToList();
         }
 
         #endregion Overrides
@@ -47,12 +47,12 @@ namespace I2LI.DataAccess.Repositories.PrivateClasses
 
         public List<StudentInfo> GetAllStudents()
         {
-            return PrivateClassesDBContext.StudentInfoes.ToList();
+            return AsQueryable().ToList();
         }
 
         public StudentInfo GetStudentById(int id)
         {
-            return AsQueriable().FirstOrDefault(c => c.Id == id);
+            return AsQueryable().FirstOrDefault(c => c.Id == id);
         }
 
         public List<ParentInfo> GetStudentParents(StudentInfo student)

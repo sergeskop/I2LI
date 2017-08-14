@@ -9,7 +9,7 @@ namespace I2LI.DataAccess.Repositories
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {
-        IQueryable<TEntity> AsQueriable();
+        IQueryable<TEntity> AsQueryable();
 
         IEnumerable<TEntity> GetAll();
         TEntity Get(object id);

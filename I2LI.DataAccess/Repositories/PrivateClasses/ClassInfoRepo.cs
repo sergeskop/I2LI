@@ -21,19 +21,25 @@ namespace I2LI.DataAccess.Repositories.PrivateClasses
 
         #region Overrides
 
-        public override IQueryable<ClassInfo> AsQueriable()
+        public override IQueryable<ClassInfo> AsQueryable()
         {
-            return PrivateClassesDBContext.ClassInfoes;
+            //Eager load all properties, including navigation properties
+            if (IncludeNavigationProperties)
+            {
+                return PrivateClassesDBContext.ClassInfoes.Include(c => c.ClassCategory).Include(c => c.Orders);
+            }
+            //return PrivateClassesDBContext.ClassInfoes;
+            return base.AsQueryable();
         }
 
-        public override IEnumerable<ClassInfo> GetAll()
-        {
-            return GetAllClasses();
-        }
+        //public override IEnumerable<ClassInfo> GetAll()
+        //{
+        //    return GetAllClasses();
+        //}
 
         public override IEnumerable<ClassInfo> FindMany(Expression<Func<ClassInfo, bool>> predicate)
         {
-            return AsQueriable().Where(predicate).ToList();
+            return AsQueryable().Where(predicate).ToList();
         }
 
         #endregion Overrides
@@ -42,17 +48,12 @@ namespace I2LI.DataAccess.Repositories.PrivateClasses
 
         public List<ClassInfo> GetAllClasses()
         {
-            //Include navigation properties or not
-            if (IncludeNavigationProperties)
-            {
-                return AsQueriable().ToList();
-            }
-            return PrivateClassesDBContext.ClassInfoes.ToList();
+                return AsQueryable().ToList();
         }
 
         public ClassInfo GetClassById(int id)
         {
-            return AsQueriable().FirstOrDefault(c => c.Id == id);
+            return AsQueryable().FirstOrDefault(c => c.Id == id);
         }
 
         public List<ClassCategory> GetAllClassCategories()

@@ -34,19 +34,10 @@ namespace I2LI.DataAccess.Repositories.PrivateClasses.Tests
             mockSet.As<IQueryable<StudentInfo>>().Setup(m => m.ElementType).Returns(queryableList.ElementType);
             mockSet.As<IQueryable<StudentInfo>>().Setup(m => m.GetEnumerator()).Returns(queryableList.GetEnumerator());
 
-            mockContext.Setup(m => m.StudentInfoes).Returns(() => mockSet.Object);
+           // mockContext.Setup(m => m.StudentInfoes).Returns(() => mockSet.Object);
+            mockContext.Setup(m => m.Set<StudentInfo>()).Returns(() => mockSet.Object);
 
             return mockContext;
-        }
-
-        [TestMethod]
-        public void ParticipantTests_GetAllStudents_DirectlyFromDBContext_Mock()
-        {
-            var mockContext = GetMockContext();
-
-            var res = mockContext.Object.StudentInfoes.ToList();
-            Assert.IsTrue(res != null && res.Count > 0);
-            Assert.AreEqual(res[0].AccountInfoId, 1, "Account Info invalid");
         }
 
         [TestMethod]

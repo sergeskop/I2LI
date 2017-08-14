@@ -42,17 +42,6 @@ namespace I2LI.DataAccess.Repositories.PrivateClasses.Tests
             orders.Add(new Order() { Id = 1, BookingNumber = "P1234", PaymentId = 1 });
             orders.Add(new Order() { Id = 1, BookingNumber = "P5678", PaymentId = 2 });
 
-            //// Convert the IEnumerable list to an IQueryable list
-            //IQueryable<Order> queryableOrderList = orders.AsQueryable();
-
-            //// Force DbSet to return the IQueryable members of our converted list object as its data source
-            //var mockOrderSet = new Mock<DbSet<Order>>();
-            //mockOrderSet.As<IQueryable<Order>>().Setup(m => m.Provider).Returns(queryableOrderList.Provider);
-            //mockOrderSet.As<IQueryable<Order>>().Setup(m => m.Expression).Returns(queryableOrderList.Expression);
-            //mockOrderSet.As<IQueryable<Order>>().Setup(m => m.ElementType).Returns(queryableOrderList.ElementType);
-            //mockOrderSet.As<IQueryable<Order>>().Setup(m => m.GetEnumerator()).Returns(queryableOrderList.GetEnumerator());
-            //mockContext.Setup(m => m.ClassCategories).Returns(() => mockOrderSet.Object);
-
             //--------------- Mock Classes ----------------------------------------------
             List<ClassInfo> classInfoes = new List<ClassInfo>();
             classInfoes.Add(new ClassInfo()
@@ -86,7 +75,8 @@ namespace I2LI.DataAccess.Repositories.PrivateClasses.Tests
             mockClassInfoSet.As<IQueryable<ClassInfo>>().Setup(m => m.GetEnumerator()).Returns(queryableClassInfoList.GetEnumerator());
 
             mockContext.Setup(m => m.ClassCategories).Returns(() => mockClassCategorySet.Object);
-            mockContext.Setup(m => m.ClassInfoes).Returns(() => mockClassInfoSet.Object);
+            //mockContext.Setup(m => m.ClassInfoes).Returns(() => mockClassInfoSet.Object);
+            mockContext.Setup(m => m.Set<ClassInfo>()).Returns(() => mockClassInfoSet.Object);
 
             return mockContext;
         }
@@ -110,11 +100,29 @@ namespace I2LI.DataAccess.Repositories.PrivateClasses.Tests
         }
 
         [TestMethod]
+        public void ParticipantTests_GetAll_Mock()
+        {
+            ClassInfoRepo repo = new ClassInfoRepo(GetMockContext().Object) { IncludeNavigationProperties = false };
+
+            var res = repo.GetAll().ToList();
+            Assert.IsTrue(res != null && res.Count == 2);
+        }
+
+        [TestMethod]
         public void ParticipantTests_Find_Mock()
         {
             ClassInfoRepo repo = new ClassInfoRepo(GetMockContext().Object) { IncludeNavigationProperties = false };
 
             var res = repo.GetAllClasses().Where(x => x.ClassName.ToLower().Contains("Birthday") && x.ClassCategory.CategoryName.ToLower() == "party");
+            Assert.IsTrue(res != null);
+        }
+
+        [TestMethod]
+        public void ParticipantTests_FindOne_Mock()
+        {
+            ClassInfoRepo repo = new ClassInfoRepo(GetMockContext().Object) { IncludeNavigationProperties = false };
+
+            var res = repo.FindOne(x => x.ClassName.ToLower().Contains("birthday") && x.ClassCategory.CategoryName.ToLower() == "party");
             Assert.IsTrue(res != null);
         }
 

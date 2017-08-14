@@ -25,7 +25,7 @@ namespace I2LI.DataAccess.Repositories
             IncludeNavigationProperties = true;
         }
 
-        public virtual IQueryable<TEntity> AsQueriable()
+        public virtual IQueryable<TEntity> AsQueryable()
         {
             return DBContext.Set<TEntity>();
         }
