@@ -15,6 +15,9 @@ namespace I2LI.DataAccess.Repositories.PrivateClasses
         List<StudentInfo> GetAllStudents();
         StudentInfo GetStudentById(int id);
         List<ParentInfo> GetStudentParents(StudentInfo student);
+        void AddAccount(AccountInfo account);
+        void AddParent(ParentInfo parent);
+        void AddStudent(StudentInfo student);
     }
 }
 

@@ -12,7 +12,7 @@ namespace I2LI.DataAccess.Repositories.PrivateClasses
     public class ParticipantRepo :
         GenericRepository<I2LI.DataAccess.Entities.PrivateClasses.StudentInfo>, IParticipantRepo
     {
-        protected PrivateClassesDBContext PrivateClassesDBContext { get { return _dbContext as PrivateClassesDBContext; } }
+        public PrivateClassesDBContext PrivateClassesDBContext { get { return _dbContext as PrivateClassesDBContext; } }
 
         public ParticipantRepo(PrivateClassesDBContext dbContext) :
             base(dbContext)
@@ -58,6 +58,21 @@ namespace I2LI.DataAccess.Repositories.PrivateClasses
         public List<ParentInfo> GetStudentParents(StudentInfo student)
         {
             return PrivateClassesDBContext.ParentInfoes.Where(p => p.AccountInfoId == student.AccountInfoId).ToList();
+        }
+
+        public void AddAccount(AccountInfo account)
+        {
+            PrivateClassesDBContext.AccountInfoes.Add(account);
+        }
+
+        public void AddParent(ParentInfo parent)
+        {
+            PrivateClassesDBContext.ParentInfoes.Add(parent);
+        }
+
+        public void AddStudent(StudentInfo student)
+        {
+            PrivateClassesDBContext.StudentInfoes.Add(student);
         }
 
         #endregion IParticipantRepo implementation

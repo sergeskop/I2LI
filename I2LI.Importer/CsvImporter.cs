@@ -41,7 +41,7 @@ namespace I2LI.Importer
                             dbContext.SaveChanges();
 
                         }
-                        catch (DbEntityValidationException exc)
+                        catch (DbEntityValidationException)
                         {
                             throw;
                         }
