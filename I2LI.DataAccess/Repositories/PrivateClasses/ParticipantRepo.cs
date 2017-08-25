@@ -55,11 +55,6 @@ namespace I2LI.DataAccess.Repositories.PrivateClasses
             return AsQueryable().FirstOrDefault(c => c.Id == id);
         }
 
-        public List<ParentInfo> GetStudentParents(StudentInfo student)
-        {
-            return PrivateClassesDBContext.ParentInfoes.Where(p => p.AccountInfoId == student.AccountInfoId).ToList();
-        }
-
         public void AddAccount(AccountInfo account)
         {
             PrivateClassesDBContext.AccountInfoes.Add(account);
@@ -73,6 +68,27 @@ namespace I2LI.DataAccess.Repositories.PrivateClasses
         public void AddStudent(StudentInfo student)
         {
             PrivateClassesDBContext.StudentInfoes.Add(student);
+        }
+
+        public List<AccountInfo> GetAllAccounts()
+        {
+            return PrivateClassesDBContext.AccountInfoes.ToList();
+        }
+
+        public AccountInfo GetAccountByStudent(StudentInfo student)
+        {
+            //TODO: validate single
+            return PrivateClassesDBContext.AccountInfoes.FirstOrDefault(a => a.Id == student.AccountInfoId);
+        }
+
+        public List<ParentInfo> GetAllParents()
+        {
+            return PrivateClassesDBContext.ParentInfoes.ToList();
+        }
+
+        public List<ParentInfo> GetParentsByStudent(StudentInfo student)
+        {
+            return PrivateClassesDBContext.ParentInfoes.Where(p => p.AccountInfoId == student.AccountInfoId).ToList();
         }
 
         #endregion IParticipantRepo implementation

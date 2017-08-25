@@ -59,8 +59,9 @@
     <Compile Include="Entities\PrivateClasses\ClassCategory.cs" />
     <Compile Include="Entities\PrivateClasses\ClassInfo.cs" />
     <Compile Include="Entities\PrivateClasses\Importable\AccountInfoCsv.cs" />
-    <Compile Include="Entities\PrivateClasses\Importable\ClassInfoCsv.cs" />
     <Compile Include="Entities\PrivateClasses\Importable\IImportable.cs" />
+    <Compile Include="Entities\PrivateClasses\Importable\ClassInfoCsv.cs" />
+    <Compile Include="Entities\PrivateClasses\Metadata\StudentInfoMetadata.cs" />
     <Compile Include="Entities\PrivateClasses\Order.cs" />
     <Compile Include="Entities\PrivateClasses\ParentInfo.cs" />
     <Compile Include="Entities\PrivateClasses\Payment.cs" />

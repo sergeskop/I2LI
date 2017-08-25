@@ -92,7 +92,7 @@ namespace I2LI.DataAccess.Repositories.PrivateClasses.Tests
         {
             ParticipantRepo repo = new ParticipantRepo(GetMockContext().Object) { IncludeNavigationProperties = false };
             StudentInfo s = repo.GetStudentById(1);
-            var res = repo.GetStudentParents(s);
+            var res = repo.GetParentsByStudent(s);
             Assert.IsTrue(res != null && res.Count == 2);
         }
 

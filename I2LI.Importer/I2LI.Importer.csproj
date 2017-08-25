@@ -64,9 +64,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="PrivateClasses\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\I2LI.DataAccess\I2LI.DataAccess.csproj">
       <Project>{5a2a028a-40c3-40ab-aa5a-c09e786423aa}</Project>

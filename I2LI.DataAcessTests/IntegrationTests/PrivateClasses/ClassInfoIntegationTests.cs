@@ -9,14 +9,15 @@ using I2LI.DataAccess.Entities.PrivateClasses;
 using I2LI.DataAccess.Repositories;
 using Moq;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 
 namespace I2LI.DataAcessTests.IntegrationTests.PrivateClasses
 {
-    [TestClass, Ignore]
+    [TestClass]
     public class ClassInfoIntegationTests
     {
 
-        [TestMethod]
+        [TestMethod , Ignore]
         public void ClassInfoIntegationTests_GetAllClassCategories()
         {
             using (PrivateClassesDBContext dbContext = new PrivateClassesDBContext())
@@ -28,7 +29,7 @@ namespace I2LI.DataAcessTests.IntegrationTests.PrivateClasses
             }
         }
 
-        [TestMethod]
+        [TestMethod , Ignore]
         public void ClassInfoIntegationTests_GetClassCategoryByKeyword()
         {
             using (PrivateClassesDBContext dbContext = new PrivateClassesDBContext())
@@ -40,7 +41,7 @@ namespace I2LI.DataAcessTests.IntegrationTests.PrivateClasses
             }
         }
 
-        [TestMethod]
+        [TestMethod , Ignore]
         public void ClassInfoIntegationTests_GetAllClasses()
         {
             using (PrivateClassesDBContext dbContext = new PrivateClassesDBContext())
@@ -52,7 +53,7 @@ namespace I2LI.DataAcessTests.IntegrationTests.PrivateClasses
             }
         }
 
-        [TestMethod]
+        [TestMethod , Ignore]
         public void ClassInfoIntegationTests_GetAll()
         {
             using (PrivateClassesDBContext dbContext = new PrivateClassesDBContext())
@@ -64,7 +65,7 @@ namespace I2LI.DataAcessTests.IntegrationTests.PrivateClasses
             }
         }
 
-        [TestMethod]
+        [TestMethod , Ignore]
         public void ClassInfoIntegationTests_FindMany()
         {
             using (PrivateClassesDBContext dbContext = new PrivateClassesDBContext())
@@ -77,7 +78,7 @@ namespace I2LI.DataAcessTests.IntegrationTests.PrivateClasses
             }
         }
 
-        [TestMethod]
+        [TestMethod , Ignore]
         public void ClassInfoIntegationTests_FindOne()
         {
             using (PrivateClassesDBContext dbContext = new PrivateClassesDBContext())
@@ -90,7 +91,7 @@ namespace I2LI.DataAcessTests.IntegrationTests.PrivateClasses
             }
         }
 
-        [TestMethod]
+        [TestMethod , Ignore]
         public void ClassInfoIntegationTests_GetClassById()
         {
             using (PrivateClassesDBContext dbContext = new PrivateClassesDBContext())
@@ -102,7 +103,7 @@ namespace I2LI.DataAcessTests.IntegrationTests.PrivateClasses
             }
         }
 
-        [TestMethod]
+        [TestMethod , Ignore]
         public void ClassInfoIntegationTests_FindFullyPaidClasses()
         {
             using (PrivateClassesDBContext dbContext = new PrivateClassesDBContext())
@@ -113,7 +114,7 @@ namespace I2LI.DataAcessTests.IntegrationTests.PrivateClasses
             }
         }
 
-        [TestMethod]
+        [TestMethod , Ignore]
         public void ClassInfoIntegationTests_FindUnPaidClasses()
         {
             using (PrivateClassesDBContext dbContext = new PrivateClassesDBContext())
@@ -121,6 +122,31 @@ namespace I2LI.DataAcessTests.IntegrationTests.PrivateClasses
                 ClassInfoRepo repo = new ClassInfoRepo(dbContext);
                 List<ClassInfo> res = repo.FindMany(c => c.Orders.Where(o => !o.PaymentId.HasValue).Count() > 0).ToList();
                 Assert.IsTrue(res != null && res.Count > 0);
+            }
+        }
+
+        [TestMethod, Ignore]
+        public void ClassInfoIntegationTests_AddClass()
+        {
+            using (PrivateClassesDBContext dbContext = new PrivateClassesDBContext())
+            {
+                ClassInfoRepo repo = new ClassInfoRepo(dbContext);
+                repo.Add(new ClassInfo { ClassCategoryId = 1, ClassName = "TestClass", Location = "Trails", ProductCode = "C12345", DateStart = DateTime.Now, DateEnd = DateTime.Now });
+                try
+                {
+                    dbContext.SaveChanges();
+                }
+                catch (DbEntityValidationException exc)
+                {
+                    Assert.Fail(exc.EntityValidationErrors.ToString());
+                }
+                catch (Exception exc)
+                {
+                    Assert.Fail(exc.ToString());
+                }
+
+                var res = repo.FindOne(c => c.ClassName == "TestClass");
+                Assert.IsNotNull(res);
             }
         }
     }

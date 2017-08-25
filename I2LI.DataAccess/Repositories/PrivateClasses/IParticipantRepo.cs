@@ -12,12 +12,18 @@ namespace I2LI.DataAccess.Repositories.PrivateClasses
     public interface IParticipantRepo :
         IGenericRepository<I2LI.DataAccess.Entities.PrivateClasses.StudentInfo>
     {
+        //Accounts
+        List<AccountInfo> GetAllAccounts();
+        AccountInfo GetAccountByStudent(StudentInfo student);
+        void AddAccount(AccountInfo account);
+        //Students
         List<StudentInfo> GetAllStudents();
         StudentInfo GetStudentById(int id);
-        List<ParentInfo> GetStudentParents(StudentInfo student);
-        void AddAccount(AccountInfo account);
-        void AddParent(ParentInfo parent);
         void AddStudent(StudentInfo student);
+        //Parents
+        List<ParentInfo> GetAllParents();
+        List<ParentInfo> GetParentsByStudent(StudentInfo student);
+        void AddParent(ParentInfo parent);
     }
 }
 

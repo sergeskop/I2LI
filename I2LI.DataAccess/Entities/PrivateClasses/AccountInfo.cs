@@ -29,6 +29,7 @@ namespace I2LI.DataAccess.Entities.PrivateClasses
         public string Comments { get; set; }
 
         [StringLength(20)]
+        [Required]
         public string Email { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
