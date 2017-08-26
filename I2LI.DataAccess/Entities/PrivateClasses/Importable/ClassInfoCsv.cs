@@ -9,7 +9,7 @@ using I2LI.DataAccess.Repositories.PrivateClasses;
 
 namespace I2LI.DataAccess.Entities.PrivateClasses
 {
-    public partial class ClassInfo : IImportable
+    public partial class ClassInfo : ICsvImportable
     {
         private static readonly string[] CategoryKeywordsLookup = new string[] 
         {

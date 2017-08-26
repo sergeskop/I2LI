@@ -26,11 +26,16 @@ namespace I2LI.Importer
                 var csv = new CsvReader(sr);
                 while (csv.Read())
                 {
+                    //Import Customer(Account and Parent)
+                    int accountId = ImportCustomer(csv);
+
+                    //ClassInfo
                     ClassInfo classInfo = new ClassInfo();
                     classInfo.FromCsv(csv);
 
                     using (PrivateClassesDBContext dbContext = new PrivateClassesDBContext())
                     {
+
                         ClassInfoRepo repo = new ClassInfoRepo(dbContext);
 
                         repo.Add(classInfo);
@@ -48,6 +53,51 @@ namespace I2LI.Importer
                     }
                 }
             }
+        }
+
+        private static int ImportCustomer(CsvReader csv)
+        {
+            int accointId = 0;
+            
+            //Import Parent
+            ParentInfo p = new ParentInfo();
+            p.FromCsv(csv);
+
+            //
+            using (PrivateClassesDBContext dbContext = new PrivateClassesDBContext())
+            {
+
+                ParticipantRepo repo = new ParticipantRepo(dbContext);
+
+                //If participant exist
+                var existingParent = repo.GetAllParents().FirstOrDefault(x => x.LastName.ToLower() == p.LastName.ToLower() && x.Email == p.Email);
+                if (existingParent != null)
+                {
+                    accointId = existingParent.AccountInfoId;
+                    //TODO-1
+                    //Update changes
+                }
+                else
+                {
+                    //repo.AddAccount(new AccountInfo { LastName = p.LastName, Email = p.Email, DateApplied = DateTime.Now});
+                    p.AccountInfo = new AccountInfo { LastName = p.LastName, Email = p.Email, DateApplied = DateTime.Now };
+                    repo.AddParent(p);
+                }
+
+                try
+                {
+                    //Save to DB
+                    dbContext.SaveChanges();
+
+                }
+                catch (DbEntityValidationException exc)
+                {
+                    string[] validationErrorMessages = exc.EntityValidationErrors.Select(x => x.ValidationErrors.ToList()[0].ErrorMessage).ToArray();
+                    throw new DbEntityValidationException(String.Join("; ", validationErrorMessages));
+                }
+            }
+
+            return accointId;
         }
 
         private static void ArchivesFile(string fileName)

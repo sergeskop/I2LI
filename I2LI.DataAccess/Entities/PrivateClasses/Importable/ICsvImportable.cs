@@ -7,7 +7,7 @@ using CsvHelper;
 
 namespace I2LI.DataAccess.Entities.PrivateClasses.Importable
 {
-    interface IImportable
+    interface ICsvImportable
     {
         void FromCsv(CsvReader csv);
     }
